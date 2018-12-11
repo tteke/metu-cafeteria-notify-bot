@@ -1,0 +1,17 @@
+{
+  "name": "kafeterya-telegram-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "configure": "node configure.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-telegram-bot-api": "^0.30.0",
+    "prompt-input": "^3.0.0",
+    "puppeteer": "^1.11.0"
+  }
+}

@@ -21,7 +21,7 @@ const notify = async () => {
     const mealDivs = document.querySelector('.yemek-listesi:nth-of-type(2)').querySelectorAll('.yemek');
 
     return Array.prototype.map.call(mealDivs, div => {
-      
+
       const mealName = div.querySelector('p').textContent;
       const mealUrl = div.querySelector('img').src;
 
@@ -32,20 +32,25 @@ const notify = async () => {
     });
   });
 
-  const theBot = new TelegramBot(botToken, { polling: true });
+  // Prevents the notifications for the day-offs
+  if (Array.isArray(mealData) && mealData.length !== 0){
+    const theBot = new TelegramBot(botToken, {
+      polling: true
+    });
 
-  theBot.sendMessage(chatId, 'Gunun Menusu');
-  theBot.sendMediaGroup(chatId, mealData.map(e => ({
-    type: 'photo',
-    media: e.mealUrl,
-    caption: e.mealName
-  })));
+    theBot.sendMessage(chatId, 'Gunun Menusu');
+    theBot.sendMediaGroup(chatId, mealData.map(e => ({
+      type: 'photo',
+      media: e.mealUrl,
+      caption: e.mealName
+    })));
+  }
 
   return true;
 };
 
 const notifyDaily = async () => {
-  console.log('scheduled for next day.');
+  console.log('scheduled for next lunch day.');
   setTimeout(async () => {
     await notify()
     await notifyDaily();
@@ -53,7 +58,7 @@ const notifyDaily = async () => {
 };
 
 const desiredHour = 11;
-const desiredMinute = 00;
+const desiredMinute = 30; //better time to learn about the lunch-early notification can make people feel hungry.
 
 const date = new Date();
 
